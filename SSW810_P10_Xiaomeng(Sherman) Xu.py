@@ -104,12 +104,22 @@ class University:
 
     def instructor_pt(self):
         """Add information into PrettyTable for instructor class"""
-        pt = PrettyTable(field_names = Instructor.pt_labels)    #Get filed names
+        pt = PrettyTable(field_names = Instructor.pt_labels)    #Get field names
         for instructor in self._instructor.values():
             for i in list(instructor.pt_row()):
                 pt.add_row(i)   #Add stuff into PrettyTable
 
         print("Instructors Summary\n")
+        print(pt,'\n')
+
+    
+    def major_pt(self):
+        """Add information into PrettyTable for Major showing required and elective courses"""
+        pt = PrettyTable(field_names = Major.pt_labels)  #Get field names
+        for major in self._major.values():
+            pt.add_row(major.pt_row())  #Add stuff into PrettyTable
+
+        print("Major Summary\n")
         print(pt,'\n')
 
 
@@ -207,6 +217,9 @@ class Grade:
 
 class Major:
     """Calss for all majors and its required courses and elective courses"""
+
+    pt_labels = ['MAJOR', 'REQUIRED COURSES', 'ELECTIVE COURSES']
+
     def __init__(self, major):
         self._major = major
         self._required = set()  #Using set to avoid dulicate course names
@@ -219,6 +232,10 @@ class Major:
     def add_elective(self, course):
         """Read from file add course as elective when flag == 'E' """
         self._elective.add(course)
+
+    def pt_row(self):
+        """Provide information to be added into PrettyTable"""
+        return self._major, sorted(self._required), sorted(self._elective)
 
     def __str__(self):
         return f"{self._required}, {self._elective}"
@@ -256,6 +273,7 @@ def main():
                     else:
                         Stevens.student_pt()
                         Stevens.instructor_pt()
+                        Stevens.major_pt()
                         #print(Stevens._instructor['98765'])
                         print(Stevens._student['11714'])
                         #print(Stevens._major['SFEN'])
