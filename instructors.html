@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    Please choose a instructor<br><br>
+    <form action = "show_instructor" method = "post">
+        <!-- pull down list-->
+        <select name = 'cwid' id = ''>
+            {% for instructor in instructors %}
+                <option value = "{{ instructor.cwid }}">{{ instructor.name  }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+
+        <input type = "submit">
+    </form>
+{% endblock %}
